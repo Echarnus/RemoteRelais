@@ -1,0 +1,51 @@
+﻿@page "/relais"
+
+@using MatBlazor
+@using Microsoft.AspNetCore.SignalR.Client
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<h3>Relais</h3>
+
+@code {
+    private HubConnection hubConnection;
+
+    public bool IsRelaisToggled { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/relaishub"))
+            .Build();
+
+        await hubConnection.StartAsync();
+    }
+
+    public async Task OnRelaisValueChanged(bool toggledValue)
+    {
+        IsRelaisToggled = toggledValue;
+        await JSRuntime.InvokeVoidAsync("console.log", $"Relais triggered {IsRelaisToggled}");
+        await hubConnection.SendAsync("SendRelaisToggle", toggledValue);
+    }
+}
+
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell">
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell">
+                        Relais
+                    </div>
+                    <div class="mat-layout-grid-cell">
+                        <MatSlideToggle TValue="bool" ValueChanged="@(value=>OnRelaisValueChanged(value))" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-layout-grid-cell"></div>
+        <div class="mat-layout-grid-cell"></div>
+        <div class="mat-layout-grid-cell"></div>
+    </div>
+</div>
