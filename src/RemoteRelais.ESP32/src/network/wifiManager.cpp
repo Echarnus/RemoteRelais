@@ -7,15 +7,16 @@ using namespace std;
 
 namespace RemoteRelais_ESP32_Network
 {
-    void WifiManager::connect(char *ssid, char *password)
+    void WifiManager::Connect(char *ssid, char *password)
     {
+
+        Serial.println(ssid);
+        Serial.println(password);
         status = WiFi.begin(ssid, password);
         if (status != WL_CONNECTED)
         {
             Serial.println("Couldn't get a wifi connection");
-            // don't do anything else:
-            while (true)
-                ;
+            Serial.println(status);
         }
         else
         {

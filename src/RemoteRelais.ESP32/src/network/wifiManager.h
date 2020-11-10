@@ -15,7 +15,7 @@ namespace RemoteRelais_ESP32_Network
         WiFiClient client;
 
     public:
-        void connect(char *ssid, char *password);
+        void Connect(char *ssid, char *password);
     };
 }; // namespace RemoteRelais_ESP32_Network
 

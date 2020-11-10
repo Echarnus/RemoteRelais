@@ -1,14 +1,18 @@
 #ifndef devsettings_h
 #define devsettings_h
 
-#include "settingsBase.h"
+#include "ISettings.h"
 
 namespace RemoteRelais_ESP32_Settings
 {
-    class DevSettings : public SettingsBase
+    class DevSettings : public ISettings
     {
-        char *wifi_ssid() override;
-        char *wifi_password() override;
+    private:
+        char *_ssid = "MySSID";
+        char *_password = "MyPassword";
+    public:
+        char *Wifi_ssid() override;
+        char *Wifi_password() override;
     };
 }; // namespace RemoteRelais_ESP32_Settings
 
